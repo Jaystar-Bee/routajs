@@ -73,8 +73,13 @@ export function createRouterMatcher(routes: RouteRecordRaw[]): RouterMatcher {
 
             uniqueKeys.forEach(key => {
                 const values = tempUrl.searchParams.getAll(key);
+                // Handle comma-separated values (e.g., ?game=soccer,football)
+                const allValues = values.reduce((acc: string[], val) => {
+                    return acc.concat(val.split(','));
+                }, []);
+
                 // If there's only one value, store as string; otherwise store as array
-                query[key] = values.length === 1 ? values[0] : values;
+                query[key] = allValues.length === 1 ? allValues[0] : allValues;
             });
         } else {
             if (location.path) {
