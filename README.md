@@ -51,6 +51,44 @@ When you trigger a navigation (e.g., `router.push('/about')`):
 
 ## Usage
 
+### Defining Routes
+
+Routajs supports dynamic segments and wildcards for flexible routing.
+
+#### Dynamic Segments
+Use a colon `:` to define dynamic parameters in your route path.
+
+```typescript
+const routes = [
+  { 
+    path: '/users/:id', 
+    component: UserDetail 
+  }
+];
+// Matches: /users/1, /users/abc
+// Accessed via: router.current.params.id
+```
+
+#### Catch-all / 404 Not Found
+Use an asterisk `*` to match anything. This is commonly used for 404 pages.
+
+```typescript
+const routes = [
+  // ... other routes
+  { 
+    path: '/about/*', 
+    component: AboutSection 
+  },
+  // Matches: /about/team, /about/contact
+
+  // Global 404 - matches everything not matched above
+  { 
+    path: '*', 
+    component: NotFound 
+  }
+];
+```
+
 ### Best Practices: Project Structure
 
 It is recommended to define your router in a dedicated file (e.g., `src/router.ts`) and export the instance. This allows you to import it anywhere in your application.
