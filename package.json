@@ -1,6 +1,6 @@
 {
   "name": "routajs",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A lightweight, framework-agnostic router plugin",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -12,6 +12,9 @@
       "import": "./dist/index.mjs"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup",
