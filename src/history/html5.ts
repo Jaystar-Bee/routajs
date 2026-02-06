@@ -23,7 +23,17 @@ export function createWebHistory(base?: string): RouterHistory {
 
     // Helper to persist state if needed
     function changeLocation(to: HistoryLocation, replace: boolean) {
-        const url = normalizedBase + (to === '/' ? '' : to);
+        // Properly construct URL by avoiding double slashes
+        // If normalizedBase is '/' and to starts with '/', we don't want '//'
+        let url: string;
+        if (normalizedBase === '/' || normalizedBase === '') {
+            // Base is root, just use the 'to' path as-is
+            url = to;
+        } else {
+            // Base is a subpath like '/app', concatenate properly
+            url = normalizedBase + (to === '/' ? '' : to);
+        }
+
         const state = {
             current: to,
             key: performance.now().toFixed(3) // Simple unique key
