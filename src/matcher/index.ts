@@ -66,8 +66,15 @@ export function createRouterMatcher(routes: RouteRecordRaw[]): RouterMatcher {
             const tempUrl = new URL(location, 'http://dummy.com');
             path = tempUrl.pathname;
             hash = tempUrl.hash;
-            tempUrl.searchParams.forEach((value, key) => {
-                query[key] = value;
+            // Properly handle duplicate query parameters
+            // Use a Set to track unique keys, then getAll() to get all values
+            const uniqueKeys = new Set<string>();
+            tempUrl.searchParams.forEach((_, key) => uniqueKeys.add(key));
+
+            uniqueKeys.forEach(key => {
+                const values = tempUrl.searchParams.getAll(key);
+                // If there's only one value, store as string; otherwise store as array
+                query[key] = values.length === 1 ? values[0] : values;
             });
         } else {
             if (location.path) {
