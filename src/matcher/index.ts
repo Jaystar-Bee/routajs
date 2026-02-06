@@ -104,6 +104,15 @@ export function createRouterMatcher(routes: RouteRecordRaw[]): RouterMatcher {
             if (location.hash) hash = location.hash;
         }
 
+        // Filter out null/undefined query parameters
+        const filteredQuery: Record<string, string | string[]> = {};
+        Object.keys(query).forEach(key => {
+            const val = query[key];
+            if (val !== null && val !== undefined) {
+                filteredQuery[key] = val;
+            }
+        });
+
         let matchedRecord: RouteRecord | undefined;
         let params: Record<string, string> = {};
 
@@ -121,7 +130,7 @@ export function createRouterMatcher(routes: RouteRecordRaw[]): RouterMatcher {
                 fullPath: path + (hash || ''),
                 path,
                 params: {},
-                query,
+                query: filteredQuery,
                 hash,
                 matched: [],
                 meta: {},
@@ -134,13 +143,13 @@ export function createRouterMatcher(routes: RouteRecordRaw[]): RouterMatcher {
             params[key] = decode(params[key]);
         });
 
-        const queryString = Object.keys(query).length ? '?' + new URLSearchParams(query as any).toString() : '';
+        const queryString = Object.keys(filteredQuery).length ? '?' + new URLSearchParams(filteredQuery as any).toString() : '';
 
         return {
             fullPath: path + queryString + (hash || ''),
             path,
             params,
-            query,
+            query: filteredQuery,
             hash,
             name: matchedRecord.name,
             matched: [matchedRecord],
