@@ -19,7 +19,8 @@
     "dev": "tsup --watch",
     "build": "tsup",
     "test": "vitest",
-    "lint": "eslint src/**"
+    "lint": "eslint src/**",
+    "release": "release-it"
   },
   "keywords": [
     "router",
@@ -29,8 +30,16 @@
     "ssr",
     "typescript"
   ],
-  "author": "",
+  "author": "Jaystar",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jaystar-Bee/routajs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Jaystar-Bee/routajs/issues"
+  },
+  "homepage": "https://github.com/Jaystar-Bee/routajs#readme",
   "devDependencies": {
     "@types/node": "^20.0.0",
     "eslint": "^8.0.0",
